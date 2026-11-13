@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ project.name }}</h2>
+
+<table>
+  <tr><th>Chain</th><td>{{ chain.name if chain else '—' }}</td></tr>
+  <tr><th>Network</th><td>{{ project.network or '—' }}</td></tr>
+  <tr><th>Source plugin</th><td>{{ project.source_plugin }}</td></tr>
+  <tr><th>Source URL</th><td><span class="trunc">{{ project.source_url or '—' }}</span></td></tr>
+  <tr><th>Discovered</th><td class="mono">{{ project.discovered_at.strftime('%Y-%m-%d %H:%M') if project.discovered_at else '—' }}</td></tr>
+  <tr><th>Last checked</th><td class="mono">{{ project.last_checked_at.strftime('%Y-%m-%d %H:%M') if project.last_checked_at else '—' }}</td></tr>
+  <tr><th>Automation allowed</th>
+      <td>
+        {% if project.automation_allowed == 'ALLOWED' %}<span class="badge s-AVAILABLE">ALLOWED</span>
+        {% elif project.automation_allowed == 'FORBIDDEN' %}<span class="badge s-OFFLINE">FORBIDDEN</span>
+        {% elif project.automation_allowed == 'MANUAL' %}<span class="badge s-REQUIRE_MANUAL">MANUAL</span>
+        {% else %}<span class="badge s-UNKNOWN">UNKNOWN</span>{% endif %}
+        {% if project.automation_evidence %}
+          <div class="muted" style="margin-top:6px">Evidence: {{ project.automation_evidence }}</div>
+        {% else %}
+          <div class="muted" style="margin-top:6px">No quoted evidence on file — automation stays disabled.</div>
+        {% endif %}
+      </td></tr>
+  {% if project.notes %}<tr><th>Notes</th><td>{{ project.notes }}</td></tr>{% endif %}
+</table>
+
+<h2>Faucets</h2>
+<table>
+  <tr><th>URL</th><th>Status</th><th>Cooldown</th><th>Wallet addr</th><th>Login</th><th>Captcha</th>
+      <th>Official</th><th>Free</th><th>Auto-claim</th><th>Fails</th></tr>
+  {% for f in faucets %}
+  <tr>
+    <td><a href="{{ f.url }}" rel="noopener noreferrer" target="_blank"><span class="trunc">{{ f.url }}</span></a></td>
+    <td><span class="badge s-{{ f.status }}">{{ f.status }}</span></td>
+    <td>{{ (f.cooldown_seconds ~ 's') if f.cooldown_seconds else '—' }}</td>
+    <td>{{ 'yes' if f.requires_wallet_address else ('no' if f.requires_wallet_address is not none else '?') }}</td>
+    <td>{{ f.login_provider or ('yes' if f.requires_login else ('no' if f.requires_login is not none else '?')) }}</td>
+    <td>{{ f.captcha_type or ('yes' if f.requires_captcha else ('no' if f.requires_captcha is not none else '?')) }}</td>
+    <td>{{ 'yes' if f.is_official_source else 'no' }}</td>
+    <td>{{ 'yes' if f.is_free_resource else 'no' }}</td>
+    <td>{{ 'ALLOWLISTED' if f.auto_claim_allowlisted else 'no' }}</td>
+    <td>{{ f.consecutive_failures }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="10" class="empty">No faucets recorded for this project.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Requirements</h2>
+<table>
+  <tr><th>Code</th><th>Type</th><th>Description</th><th>Verifiable</th><th>Required</th><th>Params</th></tr>
+  {% for r in requirements %}
+  <tr>
+    <td>{{ r.code }}</td><td>{{ r.req_type }}</td><td>{{ r.description }}</td>
+    <td>
+      {% if r.verifiable == 'AUTO' %}<span class="badge s-AVAILABLE">AUTO</span>
+      {% elif r.verifiable == 'MANUAL' %}<span class="badge s-REQUIRE_MANUAL">MANUAL</span>
+      {% else %}<span class="badge s-UNKNOWN">UNKNOWN</span>{% endif %}
+    </td>
+    <td>{{ 'yes' if r.is_required else 'no' }}</td>
+    <td class="muted">{{ r.params }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6" class="empty">No requirements defined.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent probe evidence</h2>
+<table>
+  <tr><th>When</th><th>Detected</th><th>Conf.</th><th>HTTP</th><th>Changed</th><th>Reasons / evidence</th></tr>
+  {% for c in recent_checks %}
+  <tr>
+    <td class="mono">{{ c.checked_at.strftime('%m-%d %H:%M:%S') if c.checked_at else '' }}</td>
+    <td><span class="badge s-{{ c.detected_status }}">{{ c.detected_status }}</span></td>
+    <td>{{ c.confidence if c.confidence is not none else '—' }}</td>
+    <td>{{ c.http_status if c.http_status is not none else '—' }}</td>
+    <td>{{ 'yes' if c.content_changed else 'no' }}</td>
+    <td class="muted"><span class="trunc">{{ c.evidence }}</span></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6" class="empty">No probes recorded yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

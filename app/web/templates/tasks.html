@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Tasks</h2>
+<table>
+  <tr><th>Priority</th><th>Title</th><th>Project</th><th>Wallet</th><th>Type</th><th>Status</th><th>Discovered</th><th>Source</th></tr>
+  {% for t, pname, wlabel in rows %}
+  <tr>
+    <td>{{ t.priority }}</td>
+    <td>{{ t.title }}</td>
+    <td>{{ pname or '—' }}</td><td>{{ wlabel or '—' }}</td>
+    <td>
+      {% if t.task_type == 'AUTO_ALLOWED' %}<span class="badge s-AVAILABLE">AUTO</span>
+      {% else %}<span class="badge s-REQUIRE_MANUAL">MANUAL</span>{% endif %}
+    </td>
+    <td><span class="badge s-{{ t.status }}">{{ t.status }}</span></td>
+    <td class="mono">{{ t.discovered_at.strftime('%Y-%m-%d') if t.discovered_at else '' }}</td>
+    <td>{% if t.source_url %}<a href="{{ t.source_url }}" rel="noopener noreferrer" target="_blank">link</a>{% else %}—{% endif %}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8" class="empty">No tasks recorded.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

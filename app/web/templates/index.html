@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if auto_claim_enabled %}
+<div class="warnbox">
+  <strong>GLOBAL_AUTO_CLAIM is TRUE.</strong> Automated on-chain actions are enabled.
+  Verify every allowlisted faucet against its project rules.
+</div>
+{% else %}
+<div class="okbox">
+  <strong>Auto-claim is OFF.</strong> The monitor only observes, records and notifies.
+  No on-chain write can occur in this state.
+</div>
+{% endif %}
+
+<h2>Overview</h2>
+<div class="grid">
+  <div class="card"><div class="k">Projects</div><div class="v">{{ projects }}</div></div>
+  <div class="card"><div class="k">Faucets</div><div class="v">{{ faucets_by_status.values()|sum }}</div></div>
+  <div class="card"><div class="k">Wallets</div><div class="v">{{ wallets }}</div></div>
+  <div class="card"><div class="k">Manual tasks</div><div class="v">{{ manual_tasks }}</div></div>
+  <div class="card"><div class="k">Auto tasks</div><div class="v">{{ auto_tasks }}</div></div>
+  <div class="card"><div class="k">Total gas (USD)</div><div class="v">${{ '%.2f'|format(total_gas_usd) }}</div></div>
+  <div class="card"><div class="k">Success rate</div>
+    <div class="v">{% if success_rate is not none %}{{ '%.0f'|format(success_rate) }}%{% else %}—{% endif %}</div>
+    <div class="muted">{{ claims_ok }}/{{ claims_total }} claims</div>
+  </div>
+  <div class="card"><div class="k">Queued alerts</div><div class="v">{{ pending_notifications }}</div>
+    <div class="muted">{{ notify_channels|join(', ') or 'no channel configured' }}</div>
+  </div>
+</div>
+
+<h2>Faucet status</h2>
+<table>
+  <tr><th>Status</th><th>Count</th></tr>
+  {% for status, count in faucets_by_status.items()|sort %}
+  <tr><td><span class="badge s-{{ status }}">{{ status }}</span></td><td>{{ count }}</td></tr>
+  {% else %}
+  <tr><td colspan="2" class="empty">No faucets recorded yet. Add a project to config/sources.yaml and let the discover job run.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent jobs</h2>
+<table>
+  <tr><th>Job</th><th>Status</th><th>Started</th><th>Duration</th><th>Found</th><th>Updated</th><th>Errors</th><th>Detail</th></tr>
+  {% for j in recent_jobs %}
+  <tr>
+    <td>{{ j.job_name }}</td>
+    <td><span class="badge s-{{ j.status }}">{{ j.status }}</span></td>
+    <td class="mono">{{ j.started_at.strftime('%m-%d %H:%M:%S') if j.started_at else '' }}</td>
+    <td>{{ j.duration_ms ~ ' ms' if j.duration_ms is not none else '—' }}</td>
+    <td>{{ j.items_found }}</td><td>{{ j.items_updated }}</td><td>{{ j.error_count }}</td>
+    <td class="muted"><span class="trunc">{{ j.error or '' }}</span></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8" class="empty">No job runs recorded yet.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent claims</h2>
+<table>
+  <tr><th>Project</th><th>Wallet</th><th>Mode</th><th>Status</th><th>When</th><th>Error</th></tr>
+  {% for claim, furl, wlabel, pname in recent_claims %}
+  <tr>
+    <td>{{ pname or '—' }}</td><td>{{ wlabel or '—' }}</td>
+    <td>{{ claim.mode }}</td>
+    <td><span class="badge s-{{ claim.status }}">{{ claim.status }}</span></td>
+    <td class="mono">{{ claim.attempted_at.strftime('%m-%d %H:%M') if claim.attempted_at else '' }}</td>
+    <td class="muted"><span class="trunc">{{ claim.error or '' }}</span></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6" class="empty">No claims recorded.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent transactions</h2>
+<table>
+  <tr><th>Chain</th><th>Hash</th><th>Wallet</th><th>Project</th><th>Status</th><th>Gas USD</th><th>When</th></tr>
+  {% for tx, cname, wlabel, pname, gas in recent_tx %}
+  <tr>
+    <td>{{ cname or '—' }}</td>
+    <td class="mono"><span class="trunc">{{ tx.tx_hash }}</span></td>
+    <td>{{ wlabel or '—' }}</td><td>{{ pname or '—' }}</td>
+    <td><span class="badge s-{{ tx.status }}">{{ tx.status }}</span></td>
+    <td>{% if gas is not none %}${{ '%.4f'|format(gas|float) }}{% else %}—{% endif %}</td>
+    <td class="mono">{{ tx.created_at.strftime('%m-%d %H:%M') if tx.created_at else '' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7" class="empty">No transactions recorded.</td></tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+

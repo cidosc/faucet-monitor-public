@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Status</h2>
+
+<h2>Today</h2>
+<div class="grid">
+  <div class="card"><div class="k">New projects (24h)</div><div class="v">{{ today_new }}</div></div>
+  <div class="card"><div class="k">Gas today (USD)</div><div class="v">${{ '%.2f'|format(today_gas) }}</div></div>
+</div>
+
+<h2>Available faucets</h2>
+<table>
+  <tr><th>Status</th><th>Count</th></tr>
+  {% for status, count in faucets_by_status.items()|sort %}
+  <tr><td><span class="badge s-{{ status }}">{{ status }}</span></td><td>{{ count }}</td></tr>
+  {% else %}
+  <tr><td colspan="2" class="empty">Nothing recorded yet.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Faucet cooldowns</h2>
+<table>
+  <tr><th>URL</th><th>Cooldown</th><th>Last available</th></tr>
+  {% for f in cooldowns %}
+  <tr>
+    <td class="muted"><span class="trunc">{{ f.url }}</span></td>
+    <td>{{ (f.cooldown_seconds ~ 's') if f.cooldown_seconds else 'unknown' }}</td>
+    <td class="mono">{{ f.last_available_at.strftime('%Y-%m-%d %H:%M') if f.last_available_at else '—' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="3" class="empty">No faucets currently in cooldown.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent claims</h2>
+<table>
+  <tr><th>Mode</th><th>Status</th><th>When</th><th>Error</th></tr>
+  {% for c in recent_claims %}
+  <tr>
+    <td>{{ c.mode }}</td>
+    <td><span class="badge s-{{ c.status }}">{{ c.status }}</span></td>
+    <td class="mono">{{ c.attempted_at.strftime('%m-%d %H:%M') if c.attempted_at else '' }}</td>
+    <td class="muted"><span class="trunc">{{ c.error or '' }}</span></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="4" class="empty">No claims recorded.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Recent failures</h2>
+<table>
+  <tr><th>When</th><th>Type</th><th>Detail</th></tr>
+  {% for n in failures %}
+  <tr>
+    <td class="mono">{{ n.created_at.strftime('%m-%d %H:%M') if n.created_at else '' }}</td>
+    <td>{{ n.type }}</td>
+    <td class="muted"><span class="trunc">{{ n.payload.get('body', '') }}</span></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="3" class="empty">No failures recorded.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

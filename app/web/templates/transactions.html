@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Transactions</h2>
+<table>
+  <tr><th>Chain</th><th>Hash</th><th>Wallet</th><th>Project</th><th>Status</th><th>Block</th><th>Gas USD</th><th>When</th></tr>
+  {% for tx, cname, wlabel, pname, gas in rows %}
+  <tr>
+    <td>{{ cname or '—' }}</td>
+    <td class="mono"><span class="trunc">{{ tx.tx_hash }}</span></td>
+    <td>{{ wlabel or '—' }}</td><td>{{ pname or '—' }}</td>
+    <td><span class="badge s-{{ tx.status }}">{{ tx.status }}</span></td>
+    <td>{{ tx.block_number if tx.block_number is not none else '—' }}</td>
+    <td>{% if gas is not none %}${{ '%.4f'|format(gas|float) }}{% else %}—{% endif %}</td>
+    <td class="mono">{{ tx.created_at.strftime('%Y-%m-%d %H:%M') if tx.created_at else '' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="8" class="empty">No transactions recorded.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

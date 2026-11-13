@@ -1,0 +1,40 @@
+# ─── secrets: NEVER commit ───
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+id_rsa*
+id_ed25519*
+secrets/
+credentials/
+
+# ─── runtime data ───
+logs/
+*.log
+data/
+backups/
+*.dump
+*.sql.gz
+
+# ─── python ───
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ─── editors / os ───
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+
+# Local packaging output
+build/
+dist/

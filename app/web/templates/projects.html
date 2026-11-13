@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Projects</h2>
+<table>
+  <tr><th>Name</th><th>Chain</th><th>Network</th><th>Faucets</th><th>Automation</th><th>Last checked</th><th>Links</th></tr>
+  {% for project, cname in rows %}
+  <tr>
+    <td><a href="/projects/{{ project.id }}">{{ project.name }}</a></td>
+    <td>{{ cname or '—' }}</td>
+    <td>{{ project.network or '—' }}</td>
+    <td>{{ faucet_counts.get(project.id, 0) }}</td>
+    <td>
+      {% if project.automation_allowed == 'ALLOWED' %}<span class="badge s-AVAILABLE">ALLOWED</span>
+      {% elif project.automation_allowed == 'FORBIDDEN' %}<span class="badge s-OFFLINE">FORBIDDEN</span>
+      {% elif project.automation_allowed == 'MANUAL' %}<span class="badge s-REQUIRE_MANUAL">MANUAL</span>
+      {% else %}<span class="badge s-UNKNOWN">UNKNOWN</span>{% endif %}
+    </td>
+    <td class="mono">{{ project.last_checked_at.strftime('%Y-%m-%d %H:%M') if project.last_checked_at else '—' }}</td>
+    <td>
+      {% if project.project_url %}<a href="{{ project.project_url }}" rel="noopener noreferrer" target="_blank">site</a>{% endif %}
+      {% if project.docs_url %} <a href="{{ project.docs_url }}" rel="noopener noreferrer" target="_blank">docs</a>{% endif %}
+      {% if project.faucet_url %} <a href="{{ project.faucet_url }}" rel="noopener noreferrer" target="_blank">faucet</a>{% endif %}
+      {% if project.github_url %} <a href="{{ project.github_url }}" rel="noopener noreferrer" target="_blank">gh</a>{% endif %}
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7" class="empty">No projects yet. Seed config/sources.yaml, then let the discover job run.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

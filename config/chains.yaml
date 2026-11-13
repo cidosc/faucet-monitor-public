@@ -1,0 +1,223 @@
+# Example definitions, not a guarantee of availability or permission.
+# Review endpoints, provider limits and project terms before enabling jobs.
+chains:
+
+  - key: ethereum
+    name: Ethereum
+    chain_type: evm
+    chain_id: 1
+    native_symbol: ETH
+    rpc_url_env: RPC_ETHEREUM
+    explorer_url: https://etherscan.io
+    is_testnet: false
+    enabled: true
+
+  - key: base
+    name: Base
+    chain_type: evm
+    chain_id: 8453
+    native_symbol: ETH
+    rpc_url_env: RPC_BASE
+    explorer_url: https://basescan.org
+    is_testnet: false
+    enabled: true
+
+  - key: arbitrum
+    name: Arbitrum One
+    chain_type: evm
+    chain_id: 42161
+    native_symbol: ETH
+    rpc_url_env: RPC_ARBITRUM
+    explorer_url: https://arbiscan.io
+    is_testnet: false
+    enabled: true
+
+  - key: optimism
+    name: OP Mainnet
+    chain_type: evm
+    chain_id: 10
+    native_symbol: ETH
+    rpc_url_env: RPC_OPTIMISM
+    explorer_url: https://optimistic.etherscan.io
+    is_testnet: false
+    enabled: true
+
+  - key: polygon
+    name: Polygon
+    chain_type: evm
+    chain_id: 137
+    native_symbol: POL
+    rpc_url_env: RPC_POLYGON
+    explorer_url: https://polygonscan.com
+    is_testnet: false
+    enabled: true
+
+  - key: bnb
+    name: BNB Smart Chain
+    chain_type: evm
+    chain_id: 56
+    native_symbol: BNB
+    rpc_url_env: RPC_BNB
+    explorer_url: https://bscscan.com
+    is_testnet: false
+    enabled: true
+  - key: plasma
+    name: Plasma
+    chain_type: evm
+    chain_id: 9745
+    native_symbol: XPL
+    rpc_url_env: RPC_PLASMA
+    explorer_url: https://plasmascan.to
+    is_testnet: false
+    enabled: true
+
+  - key: linea
+    name: Linea
+    chain_type: evm
+    chain_id: 59144
+    native_symbol: ETH
+    rpc_url_env: RPC_LINEA
+    explorer_url: https://lineascan.build
+    is_testnet: false
+    enabled: true
+
+  - key: scroll
+    name: Scroll
+    chain_type: evm
+    chain_id: 534352
+    native_symbol: ETH
+    rpc_url_env: RPC_SCROLL
+    explorer_url: https://scrollscan.com
+    is_testnet: false
+    enabled: true
+
+  - key: unichain
+    name: Unichain
+    chain_type: evm
+    chain_id: 130
+    native_symbol: ETH
+    rpc_url_env: RPC_UNICHAIN
+    explorer_url: https://uniscan.xyz
+    is_testnet: false
+    enabled: true
+
+  - key: zksync
+    name: zkSync Era
+    chain_type: evm
+    chain_id: 324
+    native_symbol: ETH
+    rpc_url_env: RPC_ZKSYNC
+    explorer_url: https://explorer.zksync.io
+    is_testnet: false
+    enabled: true
+
+  - key: sonic
+    name: Sonic
+    chain_type: evm
+    chain_id: 146
+    native_symbol: S
+    rpc_url_env: RPC_SONIC
+    explorer_url: https://sonicscan.org
+    is_testnet: false
+    enabled: true
+
+  - key: mantle
+    name: Mantle
+    chain_type: evm
+    chain_id: 5000
+    native_symbol: MNT
+    rpc_url_env: RPC_MANTLE
+    explorer_url: https://mantlescan.xyz
+    is_testnet: false
+    enabled: true
+
+  - key: berachain
+    name: Berachain
+    chain_type: evm
+    chain_id: 80094
+    native_symbol: BERA
+    rpc_url_env: RPC_BERACHAIN
+    explorer_url: https://berascan.com
+    is_testnet: false
+    enabled: true
+
+  - key: celo
+    name: Celo
+    chain_type: evm
+    chain_id: 42220
+    native_symbol: CELO
+    rpc_url_env: RPC_CELO
+    explorer_url: https://celoscan.io
+    is_testnet: false
+    enabled: true
+
+  - key: gnosis
+    name: Gnosis Chain
+    chain_type: evm
+    chain_id: 100
+    native_symbol: xDAI
+    rpc_url_env: RPC_GNOSIS
+    explorer_url: https://gnosisscan.io
+    is_testnet: false
+    enabled: true
+
+  - key: eth-sepolia
+    name: Ethereum Sepolia
+    chain_type: evm
+    chain_id: 11155111
+    native_symbol: ETH
+    rpc_url_env: RPC_ETH_SEPOLIA
+    explorer_url: https://sepolia.etherscan.io
+    is_testnet: true
+    enabled: true
+
+  - key: base-sepolia
+    name: Base Sepolia
+    chain_type: evm
+    chain_id: 84532
+    native_symbol: ETH
+    rpc_url_env: RPC_BASE_SEPOLIA
+    explorer_url: https://sepolia.basescan.org
+    is_testnet: true
+    enabled: true
+
+  - key: arb-sepolia
+    name: Arbitrum Sepolia
+    chain_type: evm
+    chain_id: 421614
+    native_symbol: ETH
+    rpc_url_env: RPC_ARB_SEPOLIA
+    explorer_url: https://sepolia.arbiscan.io
+    is_testnet: true
+    enabled: true
+
+  - key: op-sepolia
+    name: OP Sepolia
+    chain_type: evm
+    chain_id: 11155420
+    native_symbol: ETH
+    rpc_url_env: RPC_OP_SEPOLIA
+    explorer_url: https://sepolia-optimism.etherscan.io
+    is_testnet: true
+    enabled: true
+
+  - key: polygon-amoy
+    name: Polygon Amoy
+    chain_type: evm
+    chain_id: 80002
+    native_symbol: POL
+    rpc_url_env: RPC_POLYGON_AMOY
+    explorer_url: https://amoy.polygonscan.com
+    is_testnet: true
+    enabled: true
+
+  - key: bsc-testnet
+    name: BNB Smart Chain Testnet
+    chain_type: evm
+    chain_id: 97
+    native_symbol: tBNB
+    rpc_url_env: RPC_BSC_TESTNET
+    explorer_url: https://testnet.bscscan.com
+    is_testnet: true
+    enabled: true
+

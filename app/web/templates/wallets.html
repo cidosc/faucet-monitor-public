@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Wallets</h2>
+<div class="okbox">
+  Private keys are never stored. This table has no key column and no code path writes one.
+  Automated on-chain actions are disabled unless a wallet is explicitly flagged
+  <code>auto_faucet</code> <em>and</em> global auto-claim is on <em>and</em> the faucet is
+  allowlisted <em>and</em> a tested adapter exists.
+</div>
+<table>
+  <tr><th>Label</th><th>Address</th><th>Chain</th><th>Test wallet</th><th>Auto faucet</th>
+      <th>Enabled</th><th>Claims</th><th>Transactions</th><th>Gas USD</th></tr>
+  {% for w, cname, sym in rows %}
+  <tr>
+    <td>{{ w.label }}</td>
+    <td class="mono"><span class="trunc">{{ w.address }}</span></td>
+    <td>{{ cname or '—' }}</td>
+    <td>{{ 'yes' if w.is_test_wallet else 'no' }}</td>
+    <td>{% if w.auto_faucet %}<span class="badge s-AVAILABLE">ON</span>{% else %}<span class="badge s-UNKNOWN">off</span>{% endif %}</td>
+    <td>{{ 'yes' if w.enabled else 'no' }}</td>
+    <td>{{ claims_by_wallet.get(w.id, 0) }}</td>
+    <td>{{ tx_by_wallet.get(w.id, 0) }}</td>
+    <td>${{ '%.4f'|format(gas_by_wallet.get(w.id, 0)|float) }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="9" class="empty">No wallets configured. Wallets are added via config/wallets.yaml or the database once the schema is migrated.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

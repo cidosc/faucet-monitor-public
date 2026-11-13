@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Wallet addresses — PUBLIC data only.
+#
+#  NEVER put a private key, mnemonic, keystore or seed phrase in this file, or
+#  anywhere else in this repository. The database has no column for key material and
+#  watch-only configuration never loads one. The optional signing framework is separate.
+#
+#  auto_faucet defaults to false and is also force-disabled for any wallet that is not
+#  marked is_test_wallet. Enabling it does nothing on its own: the 9-gate policy engine
+#  must also pass, which requires a registered, tested adapter (none exist in v1).
+#
+#  Alternatively add wallets with:
+#     python -m app.cli wallet add --label testnet --address 0x... --chain eth-sepolia
+# ─────────────────────────────────────────────────────────────────────────────
+
+wallets:
+  # Uncomment and replace with your own addresses.
+  #
+  # - name: testnet
+  #   address: "0x0000000000000000000000000000000000000000"
+  #   chain: eth-sepolia
+  #   is_test_wallet: true
+  #   auto_faucet: false         # leave disabled for monitoring
+  #   enabled: true
+  #   notes: "throwaway testnet wallet; holds no value"
+  #
+  # - name: main
+  #   address: "0x0000000000000000000000000000000000000000"
+  #   chain: eth-sepolia
+  #   is_test_wallet: false
+  #   auto_faucet: false         # never automate the main wallet
+  #   enabled: true
+  #   notes: "watch-only. auto_faucet is force-disabled for non-test wallets."
+  []
+

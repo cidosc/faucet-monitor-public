@@ -1,0 +1,63 @@
+[project]
+name = "faucet-monitor"
+version = "0.1.0"
+readme = "README.md"
+description = "Faucet / Testnet / Airdrop Opportunity Monitor"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "psycopg[binary,pool]>=3.2",
+    "alembic>=1.14",
+    "httpx>=0.28",
+    "apscheduler>=3.11,<4",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "jinja2>=3.1",
+    "python-multipart>=0.0.12",
+    "tenacity>=9.0",
+    "PyYAML>=6.0",
+    "bcrypt>=4.2",
+    # ABI encoding and keccak utilities.
+    "eth-abi>=5.1",
+    "eth-utils>=4.1",
+    "pycryptodome>=3.20",
+    # Transaction signing. 只在显式启用自动领取时才会被加载；默认路径不碰它。
+    "eth-account>=0.13",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "respx>=0.22",
+    "ruff>=0.8",
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.setuptools.package-data]
+"app.web" = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]
+

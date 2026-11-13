@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Claims</h2>
+<table>
+  <tr><th>Mode</th><th>Project</th><th>Wallet</th><th>Faucet</th><th>Status</th><th>Amount</th>
+      <th>Tx hash</th><th>Attempts</th><th>When</th><th>Error</th></tr>
+  {% for c, furl, wlabel, pname in rows %}
+  <tr>
+    <td>{{ c.mode }}</td>
+    <td>{{ pname or '—' }}</td><td>{{ wlabel or '—' }}</td>
+    <td class="muted"><span class="trunc">{{ furl or '—' }}</span></td>
+    <td><span class="badge s-{{ c.status }}">{{ c.status }}</span></td>
+    <td>{% if c.amount is not none %}{{ c.amount }} {{ c.amount_unit or '' }}{% else %}—{% endif %}</td>
+    <td class="mono"><span class="trunc">{{ c.tx_hash or '—' }}</span></td>
+    <td>{{ c.attempt_count }}</td>
+    <td class="mono">{{ c.attempted_at.strftime('%Y-%m-%d %H:%M') if c.attempted_at else '' }}</td>
+    <td class="muted"><span class="trunc">{{ c.error or '' }}</span></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="10" class="empty">No claims recorded. Auto-claim is off by default, so this stays empty unless you enable it deliberately.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

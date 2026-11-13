@@ -1,0 +1,25 @@
+# Fallback token prices (USD).
+#
+# Deliberately ZERO by default. We do not invent valuations: an unknown price must
+# look like an unknown price, not like a confident $0.00 or a guessed number.
+#
+# Precedence: STATIC_PRICES_JSON env var  >  this file  >  0 (unknown).
+# Set PRICE_PROVIDER=coingecko to fetch live prices instead.
+#
+# Note that testnet tokens have no market value at all — gas on a testnet is free
+# in real terms. These entries matter only if you also track mainnet activity.
+
+prices:
+  ETH: 0
+  WETH: 0
+  POL: 0
+  MATIC: 0
+  BNB: 0
+  AVAX: 0
+  SOL: 0
+  FTM: 0
+  CELO: 0
+  USDC: 1.0
+  USDT: 1.0
+  DAI: 1.0
+

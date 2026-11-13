@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Faucet Monitor{% endblock %}</title>
+<style>
+  :root {
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --fg:#e6e9ef; --muted:#9aa3b2; --accent:#6ea8fe;
+    --ok:#3fb950; --warn:#d29922; --bad:#f85149; --info:#58a6ff; --unknown:#8b949e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  header { background:var(--panel); border-bottom:1px solid var(--line);
+           padding:12px 20px; display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:15px; margin:0; font-weight:600; letter-spacing:.3px; }
+  nav a { color:var(--muted); text-decoration:none; margin-right:14px; }
+  nav a:hover { color:var(--accent); }
+  main { padding:20px; max-width:1400px; margin:0 auto; }
+  h2 { font-size:16px; margin:24px 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:14px; }
+  .card .k { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .card .v { font-size:24px; margin-top:6px; font-weight:600; }
+  table { width:100%; border-collapse:collapse; background:var(--panel);
+          border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); font-size:13px;
+          vertical-align:top; }
+  th { background:var(--panel2); color:var(--muted); font-weight:600; font-size:12px;
+       text-transform:uppercase; letter-spacing:.4px; }
+  tr:last-child td { border-bottom:none; }
+  a { color:var(--accent); }
+  code, .mono { font-family:inherit; color:var(--muted); }
+  .badge { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px;
+           border:1px solid var(--line); }
+  .s-AVAILABLE{color:var(--ok);border-color:var(--ok);}
+  .s-COOLDOWN{color:var(--warn);border-color:var(--warn);}
+  .s-EMPTY{color:var(--warn);border-color:var(--warn);}
+  .s-REQUIRE_MANUAL{color:var(--info);border-color:var(--info);}
+  .s-CAPTCHA{color:var(--info);border-color:var(--info);}
+  .s-OFFLINE{color:var(--bad);border-color:var(--bad);}
+  .s-UNKNOWN{color:var(--unknown);border-color:var(--unknown);}
+  .s-SUCCESS,.s-SENT{color:var(--ok);border-color:var(--ok);}
+  .s-FAILED{color:var(--bad);border-color:var(--bad);}
+  .s-PENDING,.s-RUNNING{color:var(--warn);border-color:var(--warn);}
+  .s-SKIPPED_POLICY,.s-SUPPRESSED{color:var(--unknown);border-color:var(--unknown);}
+  .muted { color:var(--muted); }
+  .warnbox { background:#2b2413; border:1px solid var(--warn); color:#f0d999;
+             padding:10px 14px; border-radius:6px; margin-bottom:16px; }
+  .okbox { background:#12261a; border:1px solid var(--ok); color:#a8e6b8;
+           padding:10px 14px; border-radius:6px; margin-bottom:16px; }
+  .empty { color:var(--muted); padding:14px; font-style:italic; }
+  .trunc { max-width:420px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+           display:block; }
+</style>
+</head>
+<body>
+<header>
+  <h1>⛽ Faucet Monitor</h1>
+  <nav>
+    <a href="/">Overview</a>
+    <a href="/projects">Projects</a>
+    <a href="/wallets">Wallets</a>
+    <a href="/claims">Claims</a>
+    <a href="/tasks">Tasks</a>
+    <a href="/transactions">Transactions</a>
+    <a href="/status">Status</a>
+  </nav>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+</body>
+</html>
+

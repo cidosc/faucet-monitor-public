@@ -1,0 +1,117 @@
+# Example definitions, not a guarantee of availability or permission.
+# Review endpoints, provider limits and project terms before enabling jobs.
+projects:
+  - slug: ethereum-sepolia
+    name: Ethereum Sepolia
+    chain: eth-sepolia
+    network: sepolia
+    project_url: https://ethereum.org/en/developers/docs/networks/
+    docs_url: https://ethereum.org/en/developers/docs/networks/
+    github_url: https://github.com/ethereum
+    source_url: https://ethereum.org/en/developers/docs/networks/
+    automation_allowed: UNKNOWN
+    notes: >-
+      Seed entry. Several independent Sepolia faucets exist; most require a
+      mainnet balance, PoW mining, or a social login. Confirm each one
+      individually before considering automation.
+    faucets:
+      - https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+      - https://www.infura.io/faucet/sepolia
+      - https://sepolia-faucet.pk910.de/
+
+  - slug: base-sepolia
+    name: Base Sepolia
+    chain: base-sepolia
+    network: sepolia
+    project_url: https://docs.base.org
+    docs_url: https://docs.base.org
+    github_url: https://github.com/base
+    source_url: https://docs.base.org
+    automation_allowed: UNKNOWN
+    notes: Seed entry. Add the official faucet URL once confirmed in Base's docs.
+    faucets:
+      - https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet
+
+  - slug: arbitrum-sepolia
+    name: Arbitrum Sepolia
+    chain: arb-sepolia
+    network: sepolia
+    project_url: https://docs.arbitrum.io
+    docs_url: https://docs.arbitrum.io
+    github_url: https://github.com/OffchainLabs
+    source_url: https://docs.arbitrum.io
+    automation_allowed: UNKNOWN
+    notes: Seed entry. Arbitrum's faucet has historically required a mainnet balance threshold.
+    faucets:
+      - https://faucet.quicknode.com/arbitrum/sepolia
+
+  - slug: optimism-sepolia
+    name: OP Sepolia
+    chain: op-sepolia
+    network: sepolia
+    project_url: https://docs.optimism.io
+    docs_url: https://docs.optimism.io
+    github_url: https://github.com/ethereum-optimism
+    source_url: https://docs.optimism.io
+    automation_allowed: UNKNOWN
+    notes: Seed entry.
+    faucets:
+      - https://faucet.quicknode.com/optimism/sepolia
+
+  - slug: polygon-amoy
+    name: Polygon Amoy
+    chain: polygon-amoy
+    network: amoy
+    project_url: https://docs.polygon.technology
+    docs_url: https://docs.polygon.technology
+    github_url: https://github.com/maticnetwork
+    source_url: https://docs.polygon.technology
+    automation_allowed: UNKNOWN
+    notes: Seed entry. Polygon's faucet has historically used Alchemy-based access.
+    faucets:
+      - https://faucet.polygon.technology/
+rss:
+  - name: Ethereum Foundation blog
+    url: https://blog.ethereum.org/feed.xml
+    default_chain: eth-sepolia
+    enabled: true
+  - name: Base blog
+    url: https://base.mirror.xyz/feed/atom
+    default_chain: base-sepolia
+    enabled: true
+github:
+  - org: ethereum
+    default_chain: eth-sepolia
+    enabled: false      # enable with GITHUB_TOKEN set to avoid unauthenticated rate limits
+  - org: base-org
+    default_chain: base-sepolia
+    enabled: false
+airdrop_api:
+  - name: Airdrops.io
+    endpoint: https://airdrops.io/wp-json/wp/v2/airdrop
+    per_page: 30
+    lookback_days: 14     # only ask for recent entries, so a daily poll is a few KB
+    enabled: true
+
+  - name: AirdropAlert
+    endpoint: https://airdropalert.com/wp-json/wp/v2/project
+    per_page: 30
+    lookback_days: 14
+    enabled: true
+airdrops:
+  - name: Airdrops.io
+    url: https://airdrops.io/feed/
+    enabled: false
+  - name: AirdropAlert
+    url: https://airdropalert.com/feed/
+    enabled: false
+  - name: Cointelegraph
+    url: https://cointelegraph.com/rss
+    enabled: false
+  - name: Decrypt
+    url: https://decrypt.co/feed
+    enabled: false
+  - name: The Block
+    url: https://www.theblock.co/rss.xml
+    enabled: false
+
